@@ -31,8 +31,8 @@ jobs:
 
 ### Inputs
 
-* `major` - Comma-separated list of labels triggering a MAJOR version bump. Defaults to `''`.
-* `minor` - Comma-separated list of labels triggering a MINOR version bump. Defaults to `''`.
-* `patch` - Comma-separated list of labels triggering a PATCH version bump. Defaults to `''`.
-* `defaultPart` - SemVer part to fallback to if no labels are matched. Defaults to the
-  special value `'null'`.
+* `githubToken`
+* `changelogPath`
+* `changelogLine`
+* `currentVersion`
+* `nextVersion`
