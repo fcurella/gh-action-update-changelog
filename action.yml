@@ -1,0 +1,24 @@
+name: "Get semver part"
+description: "Maps a Pull Request's labels to semver parts"
+branding:
+  icon: 'clock'
+  color: 'orange'
+inputs:
+  githubToken:
+    description: 'The secret github token'
+    required: true
+  currentVersion:
+    description: 'Current version'
+    required: true
+  nextVersion:
+    description: 'Next version'
+    required: true
+  changelogPath:
+    description: 'Path to the changelog file'
+    required: true
+  changelogLine:
+    description: 'Line # where to insert the change'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
