@@ -64,9 +64,8 @@ def main():
 
     # commit by commit message and author and committer
     repo.index.commit("my commit message", author=author, committer=committer)
-    repo.remotes.origin = f"https://{GITHUB_ACTOR}:{GITHUB_TOKEN}@github.com/{REPOSITORY}.git"
-    origin = repo.create_remote('origin', repo.remotes.origin.url)
-    origin.push()
+    repo.remotes.origin.set_url(f"https://{GITHUB_ACTOR}:{GITHUB_TOKEN}@github.com/{REPOSITORY}.git")
+    repo.remotes.origin.push()
 
 
 if __name__ == "__main__":
