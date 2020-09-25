@@ -3,8 +3,9 @@ import logging
 import json
 import os
 
+import chevron
+
 from git import Actor, Repo
-from jinja2 import Environment, FileSystemLoader
 
 SRC_DIR = os.path.dirname(__file__)
 
@@ -27,11 +28,17 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+def make_header(text, render, level="-"):
+    result = render(text)
+    return f"{result}\n{ level * len(result)}"
+
+
 def main():
     with open(EVENT_PATH, 'r') as fh:
         payload = json.load(fh)
 
     commit_sha = payload['pull_request']['merge_commit_sha']
+    username = payload['pull_request']['user']['login']
     repo = Repo(GITHUB_WORKSPACE)
     commit = repo.commit(commit_sha)
     subject = commit.message.splitlines()[0]
@@ -41,18 +48,20 @@ def main():
         "next_version": NEXT_VERSION,
         "date": date,
         "change": subject,
+        "username": username,
         "repository": REPOSITORY,
+        "header": make_header,
     }
 
-    env = Environment(
-        loader=FileSystemLoader(os.path.join(SRC_DIR, 'templates')),
-    )
-    template = env.get_template('changelog_entry.rst')
-    snippet = template.render(**context)
+    with open(
+        os.path.join(SRC_DIR, "templates", "changelog_entry.rst.mustache"),
+        "r",
+    ) as fh:
+        snippet = chevron.render(template=fh, data=context)
 
     with open(CHANGELOG_PATH, "r") as fh:
         lines = fh.readlines()
-    updated = lines[:CHANGELOG_LINE] + snippet.splitlines() + lines[CHANGELOG_LINE:]
+    updated = lines[:CHANGELOG_LINE] + snippet.splitlines(keepends=True) + lines[CHANGELOG_LINE:]
 
     with open(CHANGELOG_PATH, "w") as fh:
         fh.writelines(updated)
@@ -63,7 +72,7 @@ def main():
     committer = Actor("github actions", "actions@github.com")
 
     # commit by commit message and author and committer
-    repo.index.commit("my commit message", author=author, committer=committer)
+    repo.index.commit(f"📝 Update {{ CHANGELOG_PATH }}", author=author, committer=committer)
     repo.remotes.origin.set_url(f"https://{GITHUB_ACTOR}:{GITHUB_TOKEN}@github.com/{REPOSITORY}.git")
     repo.remotes.origin.push()
 
