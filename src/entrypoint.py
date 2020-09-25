@@ -9,7 +9,6 @@ from jinja2 import Environment, FileSystemLoader
 SRC_DIR = os.path.dirname(__file__)
 
 REPOSITORY = os.environ["GITHUB_REPOSITORY"]
-TOKEN = os.environ["GITHUB_TOKEN"]
 SHA = os.environ["GITHUB_SHA"]
 EVENT = os.environ["GITHUB_EVENT_NAME"]
 EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
