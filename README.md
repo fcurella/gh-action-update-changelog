@@ -9,9 +9,9 @@ on:
     types: [closed]
 
 jobs:
-  bumpversion:
+  changelog:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == 'true'
+    if: github.event.pull_request.merged_at != null
     steps:
     - uses: actions/checkout@v2
       with:
