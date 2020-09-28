@@ -36,3 +36,4 @@ jobs:
 * `changelogLine`
 * `currentVersion`
 * `nextVersion`
+* `commitMessage` - Optional, defaults to `"Update <changelogPath>"`.

@@ -23,9 +23,13 @@ CHANGELOG_PATH = os.path.join(
     GITHUB_WORKSPACE, os.environ["INPUT_CHANGELOGPATH"]
 )
 CHANGELOG_LINE = int(os.environ["INPUT_CHANGELOGLINE"])
+COMMIT_MESSAGE = os.environ["INPUT_COMMITMESSAGE"]
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+if not COMMIT_MESSAGE:
+    COMMIT_MESSAGE = f"📝 Update {os.environ['INPUT_CHANGELOGPATH']}"
 
 
 def make_header(text, render, level="-"):
@@ -72,7 +76,7 @@ def main():
     committer = Actor("github actions", "actions@github.com")
 
     # commit by commit message and author and committer
-    repo.index.commit(f"📝 Update {os.environ['INPUT_CHANGELOGPATH']}", author=author, committer=committer)
+    repo.index.commit(COMMIT_MESSAGE, author=author, committer=committer)
     repo.remotes.origin.set_url(f"https://{GITHUB_ACTOR}:{GITHUB_TOKEN}@github.com/{REPOSITORY}.git")
     repo.remotes.origin.push()
 
