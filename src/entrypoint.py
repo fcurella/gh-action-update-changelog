@@ -72,7 +72,7 @@ def main():
     committer = Actor("github actions", "actions@github.com")
 
     # commit by commit message and author and committer
-    repo.index.commit(f"📝 Update {CHANGELOG_PATH}", author=author, committer=committer)
+    repo.index.commit(f"📝 Update {os.environ['INPUT_CHANGELOGPATH']}", author=author, committer=committer)
     repo.remotes.origin.set_url(f"https://{GITHUB_ACTOR}:{GITHUB_TOKEN}@github.com/{REPOSITORY}.git")
     repo.remotes.origin.push()
 
