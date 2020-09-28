@@ -22,7 +22,7 @@ NEXT_VERSION = os.environ["INPUT_NEXTVERSION"]
 CHANGELOG_PATH = os.path.join(
     GITHUB_WORKSPACE, os.environ["INPUT_CHANGELOGPATH"]
 )
-CHANGELOG_LINE = int(os.environ["INPUT_CHANGELOGLINE"])
+CHANGELOG_LINE = int(os.environ["INPUT_CHANGELOGLINE"]) - 1
 COMMIT_MESSAGE = os.environ["INPUT_COMMITMESSAGE"]
 
 logging.basicConfig(level=logging.INFO)
@@ -65,7 +65,9 @@ def main():
 
     with open(CHANGELOG_PATH, "r") as fh:
         lines = fh.readlines()
-    updated = lines[:CHANGELOG_LINE] + snippet.splitlines(keepends=True) + lines[CHANGELOG_LINE:]
+    updated = (
+        lines[:CHANGELOG_LINE] + snippet.splitlines(keepends=True) + ["\n"] + lines[CHANGELOG_LINE:]
+    )
 
     with open(CHANGELOG_PATH, "w") as fh:
         fh.writelines(updated)
