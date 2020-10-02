@@ -80,7 +80,6 @@ def main():
     # commit by commit message and author and committer
     repo.index.commit(COMMIT_MESSAGE, author=author, committer=committer)
     repo.remotes.origin.set_url(f"https://{GITHUB_ACTOR}:{GITHUB_TOKEN}@github.com/{REPOSITORY}.git")
-    repo.remotes.origin.pull(rebase=True)
     repo.remotes.origin.push()
 
 
