@@ -17,7 +17,6 @@ jobs:
     - name: Update Changelog
       uses: "fcurella/gh-action-update-changelog@main"
       with:
-        githubToken: ${{ secrets.GITHUB_TOKEN}}
         changelogPath: "CHANGELOG.rst"
         changelogLine : 4
         currentVersion: "v1.0.0"
@@ -28,7 +27,6 @@ jobs:
 
 ### Inputs
 
-* `githubToken`
 * `changelogPath`
 * `changelogLine`
 * `currentVersion`

@@ -16,7 +16,6 @@ EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
 GITHUB_WORKSPACE = os.environ["GITHUB_WORKSPACE"]
 GITHUB_ACTOR = os.environ["GITHUB_ACTOR"]
 
-GITHUB_TOKEN = os.environ["INPUT_GITHUBTOKEN"]
 CURRENT_VERSION = os.environ["INPUT_CURRENTVERSION"]
 NEXT_VERSION = os.environ["INPUT_NEXTVERSION"]
 CHANGELOG_PATH = os.path.join(
@@ -79,8 +78,6 @@ def main():
 
     # commit by commit message and author and committer
     repo.index.commit(COMMIT_MESSAGE, author=author, committer=committer)
-    repo.remotes.origin.set_url(f"https://{GITHUB_ACTOR}:{GITHUB_TOKEN}@github.com/{REPOSITORY}.git")
-    repo.remotes.origin.push()
 
 
 if __name__ == "__main__":
