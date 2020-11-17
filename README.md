@@ -17,8 +17,8 @@ jobs:
     - name: Update Changelog
       uses: "fcurella/gh-action-update-changelog@main"
       with:
-        changelogPath: "CHANGELOG.rst"
-        changelogLine : 4
+        changelogPath: "CHANGELOG.md"
+        changelogLine : 3
         currentVersion: "v1.0.0"
         nextVersion: "v1.0.1"
 ```

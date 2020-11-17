@@ -31,11 +31,6 @@ if not COMMIT_MESSAGE:
     COMMIT_MESSAGE = f"📝 Update {os.environ['INPUT_CHANGELOGPATH']}"
 
 
-def make_header(text, render, level="-"):
-    result = render(text)
-    return f"{result}\n{ level * len(result)}"
-
-
 def main():
     with open(EVENT_PATH, 'r') as fh:
         payload = json.load(fh)
@@ -53,11 +48,10 @@ def main():
         "change": subject,
         "username": username,
         "repository": REPOSITORY,
-        "header": make_header,
     }
 
     with open(
-        os.path.join(SRC_DIR, "templates", "changelog_entry.rst.mustache"),
+        os.path.join(SRC_DIR, "templates", "changelog_entry.md.mustache"),
         "r",
     ) as fh:
         snippet = chevron.render(template=fh, data=context)
